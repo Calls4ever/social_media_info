@@ -1,3 +1,6 @@
+require 'timeout'
+
+
 class SocialMediaDetailController <ApplicationController
     def index 
          
@@ -6,13 +9,16 @@ class SocialMediaDetailController <ApplicationController
             render_result(result)
         else
             result = SocialMediaDetail.last
-            render_result(result)
-            # social media details are dynamic
-            #So I am assuming that I will have updates,
-            # And I am storing the infos after rendering last stored details
-            # for some reason, rails only renders after everything is executed
-            # So I am scarifacing functionality over performance
-            result = get_result()
+            # render_result(result)
+            begin
+                Timeout.timeout(0.5) do
+                result = get_result()
+                end
+            rescue Timeout::Error
+                render_result(result)
+                SocialMediaDetail.last.destroy
+            end
+            # result = get_result()
          end
         
     end
