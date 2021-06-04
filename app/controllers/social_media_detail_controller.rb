@@ -7,7 +7,7 @@ class SocialMediaDetailController <ApplicationController
         else
             result = SocialMediaDetail.last
             render_result(result)
-            #usually the social media details are dynamic
+            # social media details are dynamic
             #So I am assuming that I will have updates,
             # And I am storing the infos after rendering last stored details
             # for some reason, rails only renders after everything is executed
